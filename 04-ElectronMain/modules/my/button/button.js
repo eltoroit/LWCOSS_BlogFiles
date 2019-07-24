@@ -1,11 +1,5 @@
 import { api } from 'lwc';
 import LightningElementSLDS from 'util/lightningElementSLDS';
-import {
-    registerListener,
-    unregisterListener,
-    unregisterAllListeners
-} from 'util/pubsub';
-
 export default class Button extends LightningElementSLDS {
     @api message;
 
@@ -26,27 +20,19 @@ export default class Button extends LightningElementSLDS {
     }
 
     showDialog() {
-        registerListener('fromElectron', this.handleFromElectron, this);
-
         this.dispatchEvent(
             new CustomEvent('toelectron', {
                 detail: {
                     type: 'showDialog',
-                    message: this.message
+                    message: this.message,
+                    callback: detail => {
+                        // eslint-disable-next-line no-alert
+                        alert(`Button clicked (callback): ${detail.buttonClicked}`);
+                    }
                 },
                 composed: true,
                 bubbles: true
             })
         );
-    }
-
-    disconnectedCallback() {
-        unregisterAllListeners(this);
-    }
-
-    handleFromElectron(detail) {
-        // eslint-disable-next-line no-alert
-        alert(`Button clicked: ${detail.buttonClicked}`);
-        unregisterListener('fromElectron', this.handleFromElectron, this);
     }
 }
