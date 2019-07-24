@@ -6,9 +6,7 @@ export default class Electron extends LightningElement {
     get fromElectron() {
         throw new Error('This getter should not be called!');
     }
-    set fromElectron(data) {
-        // eslint-disable-next-line no-alert
-        // alert(data.msg);
-        fireEvent('fromElectron', data);
+    set fromElectron(detail) {
+        fireEvent('fromElectron', detail);
     }
 }

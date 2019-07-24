@@ -7,17 +7,17 @@ const { ipcRenderer } = electron;
 
 const utilElectron = document.querySelector('#utilElectron');
 
-utilElectron.addEventListener("toelectron", (event) => {
+utilElectron.addEventListener('toelectron', event => {
     switch (event.detail.type) {
-        case 'netRequest':
-            ipcRenderer.send('netRequest', event.detail);
+        case 'showDialog':
+            ipcRenderer.send('showDialog', event.detail);
             break;
         default:
-            alert("Invalid request");
+            alert('Invalid request');
             break;
     }
 });
 
-ipcRenderer.on('fromElectron', (event, data) => {
-    utilElectron.fromElectron = data;
+ipcRenderer.on('fromElectron', (event, detail) => {
+    utilElectron.fromElectron = detail;
 });
